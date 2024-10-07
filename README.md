@@ -66,18 +66,18 @@ class API(BaseAPI):
 
 **Create a new router** and register it. Names are implied.
 
-    ```python
-    from brapi.router import Router
-    import filings.apis
+```python
+from brapi.router import Router
+import filings.apis
 
-    v1_router = Router()
-    v1_router.add(filings.apis.API)
+v1_router = Router()
+v1_router.add(filings.apis.API)
 
-    urlpatterns = [
-        path("admin/", admin.site.urls),
-        path("api/v1/", include(v1_router.urls)),
-    ]
-    ```
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api/v1/", include(v1_router.urls)),
+]
+```
 
 ## Some Examples
 
