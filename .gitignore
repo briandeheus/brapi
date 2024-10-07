@@ -1,0 +1,4 @@
+.venv
+brapi.egg-info
+.idea
+*.pyc
