@@ -3,6 +3,10 @@
 Welcome to **Brapi** — showing you how REST APIs should really be done. This is not intended to be a replacement for
 DRF, but it does solve some of my gripes with it.
 
+## Warning
+
+This shit is so experimental, only a fool would use this in production.
+
 ## Introduction
 
 **Brapi** is a minimalistic API framework that makes sure you’re doing REST the way it's intended. The biggest
@@ -27,7 +31,7 @@ There are a few guiding principles with **Brapi**:
 
 Yes, Pydantic, because it's good enough. Define a model, validate it, and make sure your API doesn’t become a wild mess.
 
-```python foo.py
+```python
 from pydantic import BaseModel
 
 
@@ -60,7 +64,7 @@ class API(BaseAPI):
         return [f.to_dict() for f in filings]
 ```
 
-**Add your API to the router.** Just like the REST gods intended.
+**Create a new router** and register it. Names are implied.
 
     ```python
     from brapi.router import Router
