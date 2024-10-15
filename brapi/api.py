@@ -157,14 +157,20 @@ class BaseAPI(View):
             return self.retrieve(request, pk)
         return self.list(request)
 
-    def post(self, request):
+    def post(self, request, **kwargs):
+
+        if kwargs.get("pk"):
+            return JsonResponse(
+                {"error": "You can only update objects using PUT."}, status=400
+            )
+
         self._validate(self.create, request)
         return self.create(request)
 
     def put(self, request, **kwargs):
 
         if pk := kwargs.get("pk"):
-            self._validate(self.put, request)
+            self._validate(self.update, request)
             return self.update(request, pk)
 
         return JsonResponse({"error": "PUT method requires 'pk' parameter"}, status=400)
