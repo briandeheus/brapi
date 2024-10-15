@@ -160,9 +160,7 @@ class BaseAPI(View):
     def post(self, request, **kwargs):
 
         if kwargs.get("pk"):
-            return JsonResponse(
-                {"error": "You can only update objects using PUT."}, status=400
-            )
+            return {"error": "You can only update objects using PUT."}, 400
 
         self._validate(self.create, request)
         return self.create(request)
@@ -173,7 +171,7 @@ class BaseAPI(View):
             self._validate(self.update, request)
             return self.update(request, pk)
 
-        return JsonResponse({"error": "PUT method requires 'pk' parameter"}, status=400)
+        return {"error": "PUT method requires 'pk' parameter"}, 400
 
     def delete(self, request, **kwargs):
 
@@ -181,9 +179,7 @@ class BaseAPI(View):
             self._validate(self.put, request)
             return self.destroy(request, pk)
 
-        return JsonResponse(
-            {"error": "DELETE method requires 'pk' parameter"}, status=400
-        )
+        return {"error": "DELETE method requires 'pk' parameter"}, 400
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
