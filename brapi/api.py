@@ -24,38 +24,6 @@ class APIRequest(HttpRequest, Generic[Q, B]):
 
 
 class BaseAPI(View):
-    """
-    We explicitly do not support actions.
-    An action should be able to be represented as a state transfer.
-
-    Logging out?
-    Bad:
-    POST /brapi/v1/account/logout
-    Good:
-    DELETE /brapi/v1/sessions/$sessionId/
-
-    Reprocessing a job?
-    Bad:
-    POST /brapi/v1/jobs/$jobId/process/
-    Good:
-    PUT /brapi/v1/jobs/$jobId
-    {"status": "pending"}
-
-    Turning off a server?
-    Bad:
-    POST /brapi/v1/servers/$serverId/shutdown/
-    Good:
-    PUT /brapi/v1/servers/$serverId
-    {"power_state": "off"}
-
-    Running a Linux command?
-    Bad:
-    POST /brapi/v1/servers/$serverId/run/
-    {"cmd": ["rm", "-rf", "/"]}
-    Good:
-    POST /brapi/v1/commands
-    {"server_id": $serverId, "cmd": ["rm", "-rf", "/"]}
-    """
 
     def _validate(self, function, request):
 
@@ -152,9 +120,11 @@ class BaseAPI(View):
     # HTTP Method Handlers
 
     def get(self, request, *args, **kwargs):
-        self._validate(self.retrieve, request)
         if pk := kwargs.get("pk"):
+            self._validate(self.retrieve, request)
             return self.retrieve(request, pk)
+
+        self._validate(self.list, request)
         return self.list(request)
 
     def post(self, request, **kwargs):
